@@ -15,29 +15,39 @@ const quots = [
 
 const mainBox = document.querySelector('[data-main-wrapper]')
 const displayRandomQuots = document.querySelector('[data-display-quotes]')
-const input = document.querySelector('[data-input]')
+// const input = document.querySelector('[data-input]')
 
-input.addEventListener('input', (event) => {
+let inputValueArr = []
+document.addEventListener('keydown', (event) => {
   const spanArr = displayRandomQuots.querySelectorAll('span')
-  const inputValue = input.textContent.split('')
+  const inputValue = event.key
+  inputValueArr.push(inputValue)
+
+  // console.log(inputValueArr)
 
   spanArr.forEach((quoteSpan, index) => {
-    let character = inputValue[index]
-    if (character == null) {
-      quoteSpan.classList.remove('correct')
-      quoteSpan.classList.remove('incorrect')
-    } else if (character === quoteSpan.innerText) {
-      quoteSpan.classList.add('correct')
-      quoteSpan.classList.remove('incorrect')
-    } else if (event.data === ' ' && quoteSpan.innerText === ' ') {
-      quoteSpan.classList.add('correct')
-      quoteSpan.classList.remove('incorrect')
+    let character = inputValueArr[index]
+    if (inputValueArr[index] === 'Shift') {
+      inputValueArr.shift()
     } else {
-      quoteSpan.classList.remove('correct')
-      quoteSpan.classList.add('incorrect')
+      if (character == null) {
+        quoteSpan.classList.remove('correct')
+        quoteSpan.classList.remove('incorrect')
+      } else if (character === quoteSpan.textContent) {
+        quoteSpan.classList.add('correct')
+        quoteSpan.classList.remove('incorrect')
+      } else if (event.key === 'Shift' && event.key === ',') {
+        quoteSpan.classList.add('correct')
+        quoteSpan.classList.remove('incorrect')
+      } else if (event.key === ' ' && quoteSpan.textContent === ' ') {
+        quoteSpan.classList.add('correct')
+        quoteSpan.classList.remove('incorrect')
+      } else {
+        quoteSpan.classList.remove('correct')
+        quoteSpan.classList.add('incorrect')
+      }
     }
   })
-  console.log(event)
 })
 
 const rendomDisplayQuotes = () => {
